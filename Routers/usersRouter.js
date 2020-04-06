@@ -1,4 +1,5 @@
 const express= require("express");
+const usersController= require(`${__dirname}\\..\\Controller\\usersController`);
 
 const router= express.Router();
 
