@@ -3,14 +3,17 @@ movieModel= require(`${__dirname}\\..\\Model\\movieModel`); //Model exported fro
 
 exports.readAllMovies= async (request, response, next) => {
     let queriedDocuments= movieModel.find();    //find() mongoose method
+    console.log(request.query);
+    /*******Custom parser*******/
 
+    /**************************/
     if(request.query.filterBy)
     {
-        queriedDocuments= queriedDocuments.find({name: "a"});
+        queriedDocuments= queriedDocuments.find();
     }
     if(request.query.sortBy)//if includes= method chain appropriate mongoose filter method
     {
-        queriedDocuments= queriedDocuments.sort({name: 1});
+        queriedDocuments= queriedDocuments.sort();
     }
 
     const allDocuments= await queriedDocuments; //Await documents after filtering process

@@ -9,7 +9,7 @@ const movieSchema= new mongoose.Schema({
         type: String,
         enum: ["Action", "Comedy", "Romance"]
     },
-    year: Date,
+    year: String,
     actors: [String],
     reviews: [String]
 });
