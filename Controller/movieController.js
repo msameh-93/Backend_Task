@@ -2,7 +2,18 @@ movieModel= require(`${__dirname}\\..\\Model\\movieModel`); //Model exported fro
 
 
 exports.readAllMovies= async (request, response, next) => {
-    const allDocuments= await movieModel.find();    //find() mongoose method
+    let queriedDocuments= movieModel.find();    //find() mongoose method
+
+    if(request.query.filterBy)
+    {
+        queriedDocuments= queriedDocuments.find({name: "a"});
+    }
+    if(request.query.sortBy)//if includes= method chain appropriate mongoose filter method
+    {
+        queriedDocuments= queriedDocuments.sort({name: 1});
+    }
+
+    const allDocuments= await queriedDocuments; //Await documents after filtering process
     if(!allDocuments)   //Send error message if no documents TODO: Custom error message
     {
         return response.status(404).json({  //404 not found http status code
