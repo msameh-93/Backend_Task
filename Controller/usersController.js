@@ -1,4 +1,5 @@
 const usersModel= require(`${__dirname}\\..\\Model\\usersModel`);
+const util= require("util");
 const jwt= require("jsonwebtoken");
 const bcrypt= require("bcryptjs");
 
@@ -42,5 +43,19 @@ exports.signin= async (request, response, next) => {
     });
 };
 exports.protect= async (request, response, next) => {
-
+    let token;
+    if(request.cookies.jwt)
+    {
+        token= request.cookies.jwt;
+    }
+    //Verify token against secret key (specified in sign in function)
+    //Promisify verify function (through util module) to use async/await
+    await util.promisify(jwt.verify)(token, "secretjwtwebtokenforauthentication").catch(() =>{
+        response.status(404).json({
+            status: "Error",
+            message: "You are not logged in"
+        });
+    });
+    //else if no error verifying grant access to API
+    next();     //call next middle-ware
 };

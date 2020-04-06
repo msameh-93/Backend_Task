@@ -1,4 +1,5 @@
 const express= require("express");
+const cookieParser= require("cookie-parser");
 
 const movieRouter= require(`${__dirname}\\Routers\\movieRouter`);
 const reviewsRouter= require(`${__dirname}\\Routers\\reviewsRouter`);
@@ -10,6 +11,8 @@ const app= express();
 
     /*Mounting Routers*/
 app.use(express.json());    //middle ware to parse json data (for Post and Patch end-points)
+app.use(cookieParser());    //middle ware to parse cookies in requests for jwt authentication
+
 //use as middle-ware and put router logic in separate file to avoid code duplicaiton
 app.use("/api/movies", movieRouter);    //All /api/movies/... will pass through this
 app.use("/api/reviews", reviewsRouter); //All /api/reviews/... will pass through this
