@@ -1,7 +1,7 @@
 const app= require(`${__dirname}\\app`);
 const mongoose= require("mongoose");
 
-//remove deprecation warnings from mongoose documentation
+//remove deprecation warnings: from mongoose documentation
 mongoose.set('useNewUrlParser', true);  
 mongoose.set('useUnifiedTopology', true);
 

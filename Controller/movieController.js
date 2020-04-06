@@ -3,19 +3,38 @@ movieModel= require(`${__dirname}\\..\\Model\\movieModel`); //Model exported fro
 
 exports.readAllMovies= async (request, response, next) => {
     let queriedDocuments= movieModel.find().populate("Allreviews");    //find() mongoose method
-    console.log(request.query);
-    /*******Custom parser*******/
-
+    /*******url parser*******/
+    
     /**************************/
     if(request.query.filterBy)
     {
-        queriedDocuments= queriedDocuments.find();
+        //Parse incoming URL query to JSON object
+        //user can filter field by operators (gt),(gte),(lt),(lte),(eq)
+        //asd(gt)asd
+        let filterQuery= request.query.filterBy;           //{name=asc,genre=asc}
+        console.log(filterQuery);
+        filterQuery= filterQuery
+            .replace(/\b(\(gte\))|(\(gt\)|(\(lte\))|(\(lt\))|(\(eq\)))\b/g, matched =>`$${matched}":"`)  
+            .replace(/\(/g, '')
+            .replace(/\)/g, '')
+            .replace(/\$/g, '":{$')   //{name:asc","genre:asc}
+            .replace(/\)/g, ')":"')   //{"name:asc","genre:asc}
+            .replace(/{/g, '{"')     //{"name:asc","genre:asc"} --> this parsed as json
+            .replace(/}/g, '"}}');      //{"name:asc","genre:asc"} --> this parsed as json
+        queriedDocuments= queriedDocuments.find(JSON.parse(filterQuery));
     }
     if(request.query.sortBy)//if includes= method chain appropriate mongoose filter method
     {
-        queriedDocuments= queriedDocuments.sort();
+        //Parse incoming URL query to JSON object
+        //user can sort by 1 or asc for ascending
+        //user can sort by -1 or desc for descending    (include in documentation)
+        let sortQuery= request.query.sortBy;           //{name=asc,genre=asc}
+        sortQuery= sortQuery.replace(/=/g, '":"')      //{name:asc,genre:asc}
+                            .replace(/,/g, '","')      //{name:asc","genre:asc}
+                            .replace(/{/g, '{"')       //{"name:asc","genre:asc}
+                            .replace(/}/g, '"}');      //{"name:asc","genre:asc"} --> this parsed as json
+        queriedDocuments= queriedDocuments.sort(JSON.parse(sortQuery));
     }
-
     const allDocuments= await queriedDocuments; //Await documents after filtering process
     if(!allDocuments)   //Send error message if no documents TODO: Custom error message
     {
