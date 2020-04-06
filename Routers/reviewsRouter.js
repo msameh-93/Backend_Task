@@ -5,7 +5,7 @@ const router= express.Router();
 
 router.use("/")
     .get(reviewsController.getReviews)
-    .post(reviewsController.postReviews);
+    .post(reviewsController.createReviews);
 
 router.use("/:id")
     .patch(reviewsController.updateReviews)
