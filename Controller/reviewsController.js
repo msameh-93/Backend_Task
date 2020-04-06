@@ -1,18 +1,15 @@
 const reviewsModel= require(`${__dirname}\\..\\Model\\reviewsModel`);
 
-
-
 exports.getReviews= async (request, response, next) => {
     const allDocuments= await reviewsModel.find();
 
-    const allDocuments= await queriedDocuments; 
     if(!allDocuments)   
     {
         return response.status(404).json({  
             status: "No Documents Found"
         });
     }
-    response.send(200).json({
+    response.status(200).json({
         status: "Successful",
         resultCount: allDocuments.length,
         data: allDocuments
@@ -51,7 +48,7 @@ exports.deleteReviews= async (request, response, next) => {
             status: "No document with this ID is found"
         });
     }
-    response.status(204).json({     //204 sccessfully deleted
+    response.status(200).json({     //200 sccessfully deleted
         status: "Successful"
     })
 };

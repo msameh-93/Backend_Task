@@ -3,10 +3,12 @@ const reviewsController= require(`${__dirname}\\..\\Controller\\reviewsControlle
 
 const router= express.Router();
 
-router.use("/")
+router.route("/")
     .get(reviewsController.getReviews)
     .post(reviewsController.createReviews);
 
-router.use("/:id")
+router.route("/:id")
     .patch(reviewsController.updateReviews)
     .delete(reviewsController.deleteReviews);
+
+module.exports= router;

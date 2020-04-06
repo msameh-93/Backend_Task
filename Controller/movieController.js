@@ -2,7 +2,7 @@ movieModel= require(`${__dirname}\\..\\Model\\movieModel`); //Model exported fro
 
 
 exports.readAllMovies= async (request, response, next) => {
-    let queriedDocuments= movieModel.find();    //find() mongoose method
+    let queriedDocuments= movieModel.find().populate("Allreviews");    //find() mongoose method
     console.log(request.query);
     /*******Custom parser*******/
 
@@ -30,7 +30,8 @@ exports.readAllMovies= async (request, response, next) => {
     })
 };
 exports.readMovie= async (request, response, next) => {
-    const document= await movieModel.findById(request.params.id);
+    const document= await movieModel.findById(request.params.id).populate("Allreviews");
+                                                            //Virtually populate reviews for get One API
     if(!document)
     {
         return response.status(404).json({      //404 not found http status code
@@ -75,7 +76,7 @@ exports.deleteMovie= async (request, response, next) => {
             status: "No document with this ID is found"
         })
     }
-    response.status(204).json({     //204 sccessfully deleted
+    response.status(200).json({     //204 sccessfully deleted
         status: "Successful"
     })
 };
