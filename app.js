@@ -26,7 +26,7 @@ app.all("*", (request, response) => {   //listens to all requests that did not p
 app.use((error, request, response, next) => {//passing 4 args to middleware is recognized as errhandler
     response.status(404).json({
         status: "Error",
-        message: "Global error handler"
+        message: error.message
     })
 });   
 /*************************************************/
