@@ -1,7 +1,7 @@
 const supertest= require("supertest");
 const app= require(`${__dirname}\\..\\app`);
 const usersModel= require(`${__dirname}\\..\\Model\\usersModel`);
-const bscrypt= require(`bcryptjs`);
+const bcrypt= require(`bcryptjs`);
 
 const testUser= {
     email: "xyz@lol.com", 
@@ -28,12 +28,31 @@ test("Sign up", async () => {
         .expect(201);
 
 });
-test("Fail to sign up if no email or password provided", (done) => {
-    done();
+test("Sign in", async () => {
+    await supertest(app)
+        .post("/api/users/signin")
+        .send({
+            email: testUser.email,
+            password: testUser.password
+        })
+        .expect(200);
 });
-test("Sign in", (done) => {
-    done();
+test("Fail to sign up if user does not exist in data base", async () => {
+    await supertest(app)
+    .post("/api/users/signin")
+    .send({
+        email: "dummyUser@lol.com",
+        password: "dummyPassword"
+    })
+    .expect(404);
 });
-test("Fail to sign in if JWT token expires", (done) => {
-    done();
+test("Fail to sign up if no email or password provided", async () => {
+    await supertest(app)
+    .post("/api/users/signin")
+    .send({ })
+    .expect(404);
 });
+//TODO
+/* test("Fail to sign in if JWT token expires", (done) => {
+    done();
+}); */

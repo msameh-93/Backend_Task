@@ -38,6 +38,8 @@ exports.signin= async (request, response, next) => {
         }
         if(!await bcrypt.compare(password, loginUser.password))
         {
+            console.log(password);
+            console.log(loginUser.password);
             return response.status(404).json({
                 status: "Error",
                 message: "Wrong password"
