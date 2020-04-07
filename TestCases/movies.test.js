@@ -1,15 +1,20 @@
-test("Get All Movies - Signed in or not", () => {
 
+
+test("Sort and/or Filter Movies - Signed in or not", (done) => {
+    done();
 });
-test("Get One Movie - Signed in or not", () => {
-
+test("Get All Movies - Signed in or not", (done) => {
+    done();
 });
-test("Create a movie only if signed in", () => {
-
+test("Get One Movie - Signed in or not", (done) => {
+    done();
 });
-test("Update a movie only if signed in", () => {
-
+test("Create a movie only if signed in", (done) => {
+    done();
 });
-test("Delete a movie only if signed in", () => {
-
+test("Update a movie only if signed in", (done) => {
+    done();
+});
+test("Delete a movie only if signed in", (done) => {
+    done();
 });

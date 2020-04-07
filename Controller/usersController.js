@@ -7,8 +7,8 @@ const bcrypt= require("bcryptjs");
 exports.signup= async (request, response, next) => {
     try
     {
-        const newUser= await usersModel.create(request.body);
-        response.status(200).json({
+        await usersModel.create(request.body);
+        response.status(201).json({
             status: "Successful",
             message: "User created successfully, you can now log in to add/update data"
         });
