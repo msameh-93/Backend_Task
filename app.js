@@ -45,4 +45,5 @@ mongoose.set('useUnifiedTopology', true);
 mongoose.connect("mongodb://localhost:27017/movies", (err) => {if(err) console.log(err)})
         .then(connection => {console.log("Connection to mongoose server is successful")});
 /*************************************************/
+
 module.exports= app;
