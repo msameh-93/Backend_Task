@@ -1,4 +1,5 @@
 const reviewsModel= require(`${__dirname}\\..\\Model\\reviewsModel`);
+const customError= require(`${__dirname}\\customError`);
 
 exports.getReviews= async (request, response, next) => {
     try
@@ -6,9 +7,9 @@ exports.getReviews= async (request, response, next) => {
         const allDocuments= await reviewsModel.find();
         if(!allDocuments)   
         {
-            throw new Error("No Documents Found");
+            throw new customError("No Documents Found", 404);   //404 Not Found
         }
-        response.status(200).json({
+        response.status(200).json({                             //200 OK
             status: "Successful",
             resultCount: allDocuments.length,
             data: allDocuments
@@ -21,7 +22,7 @@ exports.getReviews= async (request, response, next) => {
 exports.createReviews= async (request, response, next) => {
     try{
         const newDoc= await reviewsModel.create(request.body);
-        response.status(201).json({     //201 sccessfully created/updated
+        response.status(201).json({                             //201 Created
             status: "Successful",
             data: newDoc
         });
@@ -37,9 +38,9 @@ exports.updateReviews= async (request, response, next) => {
         });
         if(!updatedDoc)
         {
-            throw new Error("No Documents Found");
+            throw new customError("No Documents Found", 404);   //404 Not Found
         }
-        response.status(201).json({     //201 sccessfully created/updated
+        response.status(201).json({                             //201 Created
             status: "Successful",
             data: updatedDoc
         })
@@ -53,9 +54,9 @@ exports.deleteReviews= async (request, response, next) => {
         const deletedDoc= await reviewsModel.findByIdAndDelete(request.params.id);
         if(!deletedDoc)                 //save document in variable to check if ID is null
         {
-            throw new Error("No Documents Found");
+            throw new customError("No Documents Found", 404);       //404 Not Found
         }
-        response.status(200).json({     //200 sccessfully deleted
+        response.status(204).json({     //204 No Content to preview
             status: "Successful"
         })
     } catch(error)

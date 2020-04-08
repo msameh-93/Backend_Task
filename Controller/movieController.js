@@ -1,4 +1,5 @@
 const movieModel= require(`${__dirname}\\..\\Model\\movieModel`); //Model inported from model.js
+const customError= require(`${__dirname}\\customError`);
 
 exports.readAllMovies= async (request, response, next) => {
     try
@@ -38,9 +39,9 @@ exports.readAllMovies= async (request, response, next) => {
         const allDocuments= await queriedDocuments; //Await documents after filtering process
         if(!allDocuments)   //Send error message if no documents TODO: Custom error message
         {
-            throw new Error("No Movies were found");    
+            throw new customError("No Movies were found", 404);  //404 Not Found  
         }
-        response.status(200).json({                     //200 successful http status code
+        response.status(200).json({                     ////200 OK
             status: "Successful",       
             resultCount: allDocuments.length,
             data: allDocuments
@@ -55,9 +56,9 @@ exports.readMovie= async (request, response, next) => {
         const document= await movieModel.findById(request.params.id).populate("Allreviews");
         if(!document)
         {
-            throw new Error("No such movie exists");
+            throw new customError("No such movie exists", 404); //404 Not Found
         }
-        response.status(200).json({
+        response.status(200).json({         //200 OK
             status: "Successful",
             data: document
         });
@@ -84,9 +85,9 @@ exports.updateMovie= async (request, response, next) => {
         });
         if(!updatedDoc)
         {
-            throw new Error("No such ovie exists");
+            throw new customError("No such ovie exists", 404);      //404 Not Found
         }
-        response.status(201).json({     //201 sccessfully created/updated
+        response.status(201).json({                 //201 Created
             status: "Successful",
             data: updatedDoc
         })
@@ -100,9 +101,9 @@ exports.deleteMovie= async (request, response, next) => {
         const deletedDoc= await movieModel.findByIdAndDelete(request.params.id);
         if(!deletedDoc)                 //save document in variable to check if ID is null
         {
-            throw new Error("No document with this ID found");
+            throw new customError("No document with this ID found", 404);
         }
-        response.status(200).json({     //204 sccessfully deleted
+        response.status(200).json({     //204 No Content to preview
             status: "Successful"
         })
     } catch(error) {
