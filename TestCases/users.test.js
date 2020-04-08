@@ -3,6 +3,8 @@ const app= require(`${__dirname}\\..\\app`);
 const usersModel= require(`${__dirname}\\..\\Model\\usersModel`);
 const jwt= require("jsonwebtoken");
 const { signUpUser, signInUser, setupDB, clearDB }= require(`${__dirname}\\data`);
+const util= require("util");
+
 
 beforeAll(setupDB);
 afterAll(clearDB);
@@ -36,6 +38,15 @@ test("Fail to sign up if no email or password provided", async () => {
     .send({ })
     .expect(404);
 });
-test("Fail to sign in if JWT token expires", () => {
-    
+//Poor attmempt to test JWT expiry :)
+test("Fail to authenticate if JWT token expires", (done) => {
+    const token= jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"500"});
+    const ver= () => {jwt.verify(token, "secretjwtwebtokenforauthentication", function(error, decoded) {
+        if(error)   //error means jwt expired
+        {
+            return done();
+        }
+        fail("JWT expired");
+    })};
+    setTimeout(ver, 1000);
 });
