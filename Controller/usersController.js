@@ -45,7 +45,7 @@ exports.signin= async (request, response, next) => {
                 message: "Wrong password"
             });
         }
-        const token= jwt.sign({id: email}, "secretjwtwebtokenforauthentication", {expiresIn: "5m"});
+        const token= jwt.sign({id:loginUser.id},"secretjwtwebtokenforauthentication", {expiresIn: "5m"});
         response.cookie("jwt", token);
         response.status(200).json({
             status: "Successful",
@@ -67,10 +67,7 @@ exports.protect= async (request, response, next) => {
         //Verify token against secret key (specified in sign in function)
         //Promisify verify function (through util module) to use async/await
         await util.promisify(jwt.verify)(token, "secretjwtwebtokenforauthentication").catch(() =>{
-            response.status(404).json({
-                status: "Error",
-                message: "You are not logged in"
-            });
+            throw new Error("You are not logged in");
         });
         //else if no error verifying grant access to API
         next();     //call next middle-ware

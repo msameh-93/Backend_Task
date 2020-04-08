@@ -1,4 +1,4 @@
-movieModel= require(`${__dirname}\\..\\Model\\movieModel`); //Model exported from model.js
+const movieModel= require(`${__dirname}\\..\\Model\\movieModel`); //Model exported from model.js
 
 
 exports.readAllMovies= async (request, response, next) => {
@@ -112,9 +112,7 @@ exports.deleteMovie= async (request, response, next) => {
 
         if(!deletedDoc)                 //save document in variable to check if ID is null
         {
-            return response.status(404).json({      //404 not found http status code
-                status: "No document with this ID is found"
-            })
+            throw new Error("No document with this ID found");
         }
         response.status(200).json({     //204 sccessfully deleted
             status: "Successful"

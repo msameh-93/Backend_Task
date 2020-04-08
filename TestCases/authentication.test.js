@@ -1,9 +1,11 @@
 const supertest= require("supertest");
 const app= require(`${__dirname}\\..\\app`);
 const usersModel= require(`${__dirname}\\..\\Model\\usersModel`);
-const bcrypt= require(`bcryptjs`);
+const jwt= require("jsonwebtoken");
+const mongoose= require("mongoose");
 
 const testUser= {
+    _id: new mongoose.Types.ObjectId,   //test authorization through jwt token
     email: "xyz@lol.com", 
     password: "test1234"
 }
@@ -52,7 +54,6 @@ test("Fail to sign up if no email or password provided", async () => {
     .send({ })
     .expect(404);
 });
-//TODO
-/* test("Fail to sign in if JWT token expires", (done) => {
+test("Fail to sign in if JWT token expires", (done) => {
     done();
-}); */
+});

@@ -7,8 +7,7 @@ const reviewsSchema= new mongoose.Schema({
     },
     movieId: {
         type: mongoose.Schema.ObjectId,
-        ref: "Movies",
-        required: [true, "Review must reference a movie"]
+        ref: "Movies"
     },
     rate: Number,
     description: String,

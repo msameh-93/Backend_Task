@@ -24,7 +24,6 @@ exports.getReviews= async (request, response, next) => {
 exports.createReviews= async (request, response, next) => {
     try{
         const newDoc= await reviewsModel.create(request.body);
-        
         response.status(201).json({     //201 sccessfully created/updated
             status: "Successful",
             data: newDoc
@@ -39,7 +38,6 @@ exports.updateReviews= async (request, response, next) => {
         const updatedDoc= await reviewsModel.findByIdAndUpdate(request.params.id, request.body, {
             new: true       //"new" Tells mongoose to create the updated document as a new instance
         });
-
         if(!updatedDoc)
         {
             return response.status(404).json({      //404 not found http status code

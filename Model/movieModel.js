@@ -10,8 +10,8 @@ const movieSchema= new mongoose.Schema({
         required: [true, "Movie must have a name"]
     },
     genre: {
-        type: String,
-        enum: ["Action", "Comedy", "Romance"],
+        type: String/* ,
+        enum: ["Action", "Comedy", "Romance"], */
     },
     year: String,
     actors: [String],
@@ -33,6 +33,9 @@ movieSchema.virtual("Allreviews", {
     foreignField: "movieId",
     localField: "_id",
     select: "rate description"
+});
+movieSchema.pre(/^delete/g, function(next) {
+    console.log("PRE MOVIE REMOVE");
 });
 const movieModel= mongoose.model("Movies", movieSchema);
 
