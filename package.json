@@ -18,10 +18,12 @@
     "faker": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.7",
+    "socket.io": "^2.3.0",
     "validator": "^13.0.0"
   },
   "devDependencies": {
     "jest": "^25.2.7",
+    "pug": "^2.0.4",
     "querymen": "^2.1.4",
     "supertest": "^3.4.2"
   }

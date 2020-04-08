@@ -9,9 +9,16 @@ const usersRouter= require(`${__dirname}\\Routers\\usersRouter`);
 
 const app= express();
 
+app.set("view engine", "pug");
+app.set("views", `${__dirname}\\View`);
+app.use(express.static(`${__dirname}\\public`));
 /**Middle-wares**/
 app.use(express.json());    //middle ware to parse json data (for Post and Patch end-points)
 app.use(cookieParser());    //middle ware to parse cookies in requests for jwt authentication
+    /*Render Home page*/
+app.use("/home", (request, response) => {
+    response.status(200).render("index");
+});
     /*Mounting Routers*/
 //use as middle-ware and put router logic in separate file to avoid code duplicaiton
 app.use("/api/movies", movieRouter);    //All /api/movies/... will pass through this
