@@ -1,8 +1,8 @@
 const express= require("express");
 const usersController= require(`${__dirname}\\..\\Controller\\usersController`);
+const router= express.Router();     //used as middle ware
 
-const router= express.Router();
-
+//Mounted routers on app.js (/api/users/...)
 router.post("/signin", usersController.signin);
 router.post("/signup", usersController.signup);
 

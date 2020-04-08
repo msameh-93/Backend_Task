@@ -11,10 +11,13 @@ const reviewsSchema= new mongoose.Schema({
     },
     rate: Number,
     description: String,
-    title: String
+    title: {
+        type: String,
+        unique: true        //Reviews are identified by thier title
+    }
 });
 /*Populate the movie field by its ID - for performance, its better to virtually populate fields and persist only IDs
-//pre is a mongoose query middle ware
+//pre is a mongoose query middle ware   (Future feauture)
 reviewsSchema.pre(/^find/, function(next) { //populate field before functions that start with "find in its name", eg: findOne or findById
     this.populate({                         //this refers to current mongoose query
         path: "movieId",

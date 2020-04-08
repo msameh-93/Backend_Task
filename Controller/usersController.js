@@ -3,7 +3,6 @@ const util= require("util");
 const jwt= require("jsonwebtoken");
 const bcrypt= require("bcryptjs");
 
-//try catch w bab3at next + custoom app error
 exports.signup= async (request, response, next) => {
     try
     {
@@ -21,35 +20,23 @@ exports.signin= async (request, response, next) => {
     try
     {
         const {email, password}= request.body;
-        if(!email || !password)
+        if(!email || !password) //if no password OR no email
         {
-            return response.status(404).json({
-                status: "Error",
-                message: "Password and/or email fields cannot be empty"
-            });
+            throw new Error("No password or email provided");
         }
         const loginUser= await usersModel.findOne({email: email});
         if(!loginUser)
         {
-            return response.status(404).json({
-                status: "Error",
-                message: "User is not registered in DB"
-            });
+            throw new Error("User is not registered in DB");
         }
         if(!await bcrypt.compare(password, loginUser.password))
         {
-            console.log(password);
-            console.log(loginUser.password);
-            return response.status(404).json({
-                status: "Error",
-                message: "Wrong password"
-            });
+            throw new Error("Wrong password");
         }
         const token= jwt.sign({id:loginUser.id},"secretjwtwebtokenforauthentication", {expiresIn: "5m"});
-        response.cookie("jwt", token);
+        response.cookie("jwt", token);  //Set cookie used for authorization
         response.status(200).json({
             status: "Successful",
-            token: token,
             message: "Logged in successfuly. You can now add/update data"
         });
     } catch(error) {
@@ -67,6 +54,7 @@ exports.protect= async (request, response, next) => {
         //Verify token against secret key (specified in sign in function)
         //Promisify verify function (through util module) to use async/await
         await util.promisify(jwt.verify)(token, "secretjwtwebtokenforauthentication").catch(() =>{
+            //catch rejected promise and throw to try/catch block
             throw new Error("You are not logged in");
         });
         //else if no error verifying grant access to API

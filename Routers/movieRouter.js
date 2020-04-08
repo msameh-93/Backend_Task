@@ -1,11 +1,11 @@
 const express= require("express");
 const movieController= require(`${__dirname}\\..\\Controller\\movieController`);
 const usersController= require(`${__dirname}\\..\\Controller\\usersController`);
-
 const router= express.Router();     //used as middle ware
 
 //RESTful CRUD apis
 //protect routes from non logged in user
+//Mounted routers on app.js (/api/movies/...)
 router.route("/")
     .get(movieController.readAllMovies)     //non logged users can view only
     .post(usersController.protect, movieController.createOneMovie);

@@ -2,12 +2,11 @@ const mongoose= require("mongoose");
 const validator= require("validator");
 const bcrypt= require("bcryptjs");
 
-
 const usersSchema= new mongoose.Schema({
     email: {
         type: String,
         required: [true, "Please provide email"],
-        unique: true,   //users identified by thier emails
+        unique: true,                                       //users identified by thier emails
         validate: [validator.isEmail, "Email is not valid"] //checks if input follows email pattern
     },
     password: {
@@ -17,7 +16,7 @@ const usersSchema= new mongoose.Schema({
     }
 });
 
-usersSchema.pre("save", async function(next) {  //pre save mongoose middle ware
+usersSchema.pre("save", async function(next) {              //pre save mongoose middle ware
     this.password= await bcrypt.hash(this.password, 12);    //encrypt passwords in DB for security
     next();
 });

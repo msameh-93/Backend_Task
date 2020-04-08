@@ -1,17 +1,18 @@
 const mongoose= require("mongoose");
 
 const movieSchema= new mongoose.Schema({
-    __v: { 
+    __v: {  
         type: Number, 
-        select: false
+        select: false   //removes _v from DB view (For presentation purpose only)
     },
     name: {
         type: String,
-        required: [true, "Movie must have a name"]
+        required: [true, "Movie must have a name"],
+        unique: true                //Movies are identified by thier names
     },
     genre: {
-        type: String/* ,
-        enum: ["Action", "Comedy", "Romance"], */
+        type: String
+        //enum: ["Action", "Comedy", "Romance"]     //Future Feauture
     },
     year: String,
     actors: [String],

@@ -1,12 +1,14 @@
 const express= require("express");
 const cookieParser= require("cookie-parser");
 const mongoose= require("mongoose");
-
+/************************/
 const movieRouter= require(`${__dirname}\\Routers\\movieRouter`);
 const reviewsRouter= require(`${__dirname}\\Routers\\reviewsRouter`);
 const usersRouter= require(`${__dirname}\\Routers\\usersRouter`);
 /*************************************************/
+
 const app= express();
+
 /**Middle-wares**/
 app.use(express.json());    //middle ware to parse json data (for Post and Patch end-points)
 app.use(cookieParser());    //middle ware to parse cookies in requests for jwt authentication
@@ -29,7 +31,7 @@ app.use((error, request, response, next) => {//passing 4 args to middleware is r
     })
 });   
 /*************Connecting to Mongoose********************/
-//remove deprecation warnings: from mongoose documentation
+//remove deprecation warnings: (from mongoose documentation)
 mongoose.set('useNewUrlParser', true);  
 mongoose.set('useUnifiedTopology', true);
 

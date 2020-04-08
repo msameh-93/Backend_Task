@@ -4,12 +4,9 @@ exports.getReviews= async (request, response, next) => {
     try
     {
         const allDocuments= await reviewsModel.find();
-
         if(!allDocuments)   
         {
-            return response.status(404).json({  
-                status: "No Documents Found"
-            });
+            throw new Error("No Documents Found");
         }
         response.status(200).json({
             status: "Successful",
@@ -40,9 +37,7 @@ exports.updateReviews= async (request, response, next) => {
         });
         if(!updatedDoc)
         {
-            return response.status(404).json({      //404 not found http status code
-                status: "No document with this ID is found"
-            });
+            throw new Error("No Documents Found");
         }
         response.status(201).json({     //201 sccessfully created/updated
             status: "Successful",
@@ -56,12 +51,9 @@ exports.updateReviews= async (request, response, next) => {
 exports.deleteReviews= async (request, response, next) => {
     try{
         const deletedDoc= await reviewsModel.findByIdAndDelete(request.params.id);
-
         if(!deletedDoc)                 //save document in variable to check if ID is null
         {
-            return response.status(404).json({      //404 not found http status code
-                status: "No document with this ID is found"
-            });
+            throw new Error("No Documents Found");
         }
         response.status(200).json({     //200 sccessfully deleted
             status: "Successful"
