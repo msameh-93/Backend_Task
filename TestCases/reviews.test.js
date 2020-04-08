@@ -1,32 +1,14 @@
 const supertest= require("supertest");
 const app= require(`${__dirname}\\..\\app`);
-
 const reviewsModel= require(`${__dirname}\\..\\Model\\reviewsModel`);
-
 const jwt= require("jsonwebtoken");
 const mongoose= require("mongoose");
-const faker= require("faker");
+const { signInUser, testReview, clearDB }= require(`${__dirname}\\data`);
 
-const testUser= {
-    _id: new mongoose.Types.ObjectId,   //test authorization through jwt token
-    email: "xyz@lol.com", 
-    password: "test1234"
-}
-const testReview= {
-    movieId: new mongoose.Types.ObjectId(),
-    rate: 4,
-    description: faker.lorem.sentence(),
-    title: faker.lorem.word()
-}
-test("Get All Reviews - Signed in or not", async () => {
-    await supertest(app)
-        .get("/api/reviews")
-        .set("Cookie", `jwt= `)
-        .send()
-        .expect(200);
-});
+afterAll(clearDB);  //to reset dummy data entered by jest if it was not deleted by "delete" test case
+
 test("Create to Create a review only if signed in", async () => {
-    const token= await jwt.sign({id:testUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+    const token= await jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
     await supertest(app)
         .post("/api/reviews")
         .set("Cookie", `jwt=${token}`)
@@ -40,8 +22,18 @@ test("Fail to post review if not signed in", async () => {
         .send({ })
         .expect(404);
 });
+test("Get All Reviews - Signed in or not", async () => {
+    const response= await supertest(app)    //variable stores response body for logging
+        .get("/api/reviews")
+        .set("Cookie", `jwt= `)
+        .send()
+        .expect(200);
+    expect(response).not.toBeNull();    //make sure DB is not empty
+    expect(response.body.data[response.body.data.length-1].title).toBe(testReview.title); 
+    //ensure data consistency
+});
 test("Update a review only if signed in", async () => {
-    const token= await jwt.sign({id:testUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+    const token= await jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
     const review= await reviewsModel.findOne(testReview);
     if(!review)
     {
@@ -54,7 +46,7 @@ test("Update a review only if signed in", async () => {
         .expect(201);
 });
 test("Fail to Update a review if ID not found", async () => {
-    const token= await jwt.sign({id:testUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+    const token= await jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
     await supertest(app)
         .patch(`/api/reviews/${new mongoose.Types.ObjectId}`)
         .set("Cookie", `jwt=${token}`)
@@ -62,7 +54,7 @@ test("Fail to Update a review if ID not found", async () => {
         .expect(404);
 });
 test("Delete a review only if signed in", async () => {
-    const token= await jwt.sign({id:testUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+    const token= await jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
     const review= await reviewsModel.findOne(testReview);
     if(!review)
     {
@@ -75,7 +67,7 @@ test("Delete a review only if signed in", async () => {
         .expect(200);
 });
 test("Fail to Delete a review if ID not found", async () => {
-    const token= await jwt.sign({id:testUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+    const token= await jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
     const review= await reviewsModel.findOne(testReview);
     await supertest(app)
         .delete(`/api/reviews/${new mongoose.Types.ObjectId}`)
