@@ -60,9 +60,7 @@ exports.readMovie= async (request, response, next) => {
                                                                 //Virtually populate reviews for get One API
         if(!document)
         {
-            return response.status(404).json({      //404 not found http status code
-                status: "No document with this ID is found"
-            })
+            throw new Error("No such movie exists");
         }
         response.status(200).json({
             status: "Successful",

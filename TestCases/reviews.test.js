@@ -7,8 +7,8 @@ const { signInUser, testReview, clearDB }= require(`${__dirname}\\data`);
 
 afterAll(clearDB);  //to reset dummy data entered by jest if it was not deleted by "delete" test case
 
-test("Create to Create a review only if signed in", async () => {
-    const token= await jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+test("Create a review only if signed in", async () => {
+    const token= jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
     await supertest(app)
         .post("/api/reviews")
         .set("Cookie", `jwt=${token}`)
@@ -33,11 +33,11 @@ test("Get All Reviews - Signed in or not", async () => {
     //ensure data consistency
 });
 test("Update a review only if signed in", async () => {
-    const token= await jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+    const token=  jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
     const review= await reviewsModel.findOne(testReview);
     if(!review)
     {
-        throw new Error("No ID for this document - test case message");
+        throw new Error("No such review exists - test case message");
     }
     await supertest(app)
         .patch(`/api/reviews/${review._id}`)
@@ -46,7 +46,7 @@ test("Update a review only if signed in", async () => {
         .expect(201);
 });
 test("Fail to Update a review if ID not found", async () => {
-    const token= await jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+    const token= jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication",{expiresIn:"5m"});
     await supertest(app)
         .patch(`/api/reviews/${new mongoose.Types.ObjectId}`)
         .set("Cookie", `jwt=${token}`)
@@ -54,11 +54,11 @@ test("Fail to Update a review if ID not found", async () => {
         .expect(404);
 });
 test("Delete a review only if signed in", async () => {
-    const token= await jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+    const token=  jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
     const review= await reviewsModel.findOne(testReview);
     if(!review)
     {
-        throw new Error("No ID for this document - test case message");
+        throw new Error("No such review exists - test case message");
     }
     await supertest(app)
         .delete(`/api/reviews/${review._id}`)
@@ -66,8 +66,8 @@ test("Delete a review only if signed in", async () => {
         .send()
         .expect(200);
 });
-test("Fail to Delete a review if ID not found", async () => {
-    const token= await jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+test("Fail to delete a review if ID not found", async () => {
+    const token=  jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
     const review= await reviewsModel.findOne(testReview);
     await supertest(app)
         .delete(`/api/reviews/${new mongoose.Types.ObjectId}`)

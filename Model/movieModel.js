@@ -34,9 +34,6 @@ movieSchema.virtual("Allreviews", {
     localField: "_id",
     select: "rate description"
 });
-movieSchema.pre(/^delete/g, function(next) {
-    console.log("PRE MOVIE REMOVE");
-});
 const movieModel= mongoose.model("Movies", movieSchema);
 
 module.exports= movieModel;
