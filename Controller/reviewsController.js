@@ -52,7 +52,7 @@ exports.updateReviews= async (request, response, next) => {
 exports.deleteReviews= async (request, response, next) => {
     try{
         const deletedDoc= await reviewsModel.findByIdAndDelete(request.params.id);
-        if(!deletedDoc)                 //save document in variable to check if ID is null
+        if(!deletedDoc)                 //Save document in variable to check if ID is null
         {
             throw new customError("No Documents Found", 404);       //404 Not Found
         }

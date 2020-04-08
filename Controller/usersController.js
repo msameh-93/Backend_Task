@@ -41,6 +41,7 @@ exports.signin= async (request, response, next) => {
             message: "Logged in successfuly. You can now add/update data"
         });
     } catch(error) {
+        console.log(error);
         next(error);
     }
 };

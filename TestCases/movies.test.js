@@ -44,7 +44,7 @@ test("Fail to post movie if not signed in", async () => {
         .post("/api/movies")
         .set("Cookie", `jwt= `)
         .send({ })
-        .expect(404);
+        .expect(401);
 });
 test("Get All movie - Signed in or not", async () => {
     const response= await supertest(app)    //variable stores response body for logging

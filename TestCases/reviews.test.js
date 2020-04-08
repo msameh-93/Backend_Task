@@ -20,7 +20,7 @@ test("Fail to post review if not signed in", async () => {
         .post("/api/reviews")
         .set("Cookie", `jwt= `)
         .send({ })
-        .expect(404);
+        .expect(401);
 });
 test("Get All Reviews - Signed in or not", async () => {
     const response= await supertest(app)    //variable stores response body for logging
@@ -64,7 +64,7 @@ test("Delete a review only if signed in", async () => {
         .delete(`/api/reviews/${review._id}`)
         .set("Cookie", `jwt=${token}`)
         .send()
-        .expect(200);
+        .expect(204);
 });
 test("Fail to delete a review if ID not found", async () => {
     const token=  jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});

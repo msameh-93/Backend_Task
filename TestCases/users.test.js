@@ -3,7 +3,6 @@ const app= require(`${__dirname}\\..\\app`);
 const usersModel= require(`${__dirname}\\..\\Model\\usersModel`);
 const jwt= require("jsonwebtoken");
 const { signUpUser, signInUser, setupDB, clearDB }= require(`${__dirname}\\data`);
-const util= require("util");
 
 
 beforeAll(setupDB);
@@ -23,7 +22,7 @@ test("Sign in", async () => {
         .send(signInUser)
         .expect(200);
 });
-test("Fail to sign up if user does not exist in data base", async () => {
+test("Fail to sign in if user does not exist in data base", async () => {
     await supertest(app)
     .post("/api/users/signin")
     .send({

@@ -87,7 +87,7 @@ exports.updateMovie= async (request, response, next) => {
         {
             throw new customError("No such ovie exists", 404);      //404 Not Found
         }
-        response.status(201).json({                 //201 Created
+        response.status(201).json({                                 //201 Created
             status: "Successful",
             data: updatedDoc
         })
