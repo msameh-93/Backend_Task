@@ -110,3 +110,4 @@ test("Fail to delete a movie if ID not found", async () => {
         .send()
         .expect(404);
 });
+//TODO: Test Schema validation

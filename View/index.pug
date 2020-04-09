@@ -1,8 +1,13 @@
 head
     title Real Time
-
-body
+    link(rel="stylesheet" href="/js/css/styles.css")
+body(style='width: 20000px;')
     h1 Front End Real Time Access
-
+    div.split.left
+        h1 Recently Added Movies
+        ol#movies
+    div.split.right
+        h1 Recently Added Reviews
+        ol#reviews
     script(src='/socket.io/socket.io.js')
     script(src='/js/socketLogic.js')

@@ -1,4 +1,5 @@
 const reviewsModel= require(`${__dirname}\\..\\Model\\reviewsModel`);
+const movieModel= require(`${__dirname}\\..\\Model\\movieModel`);
 const customError= require(`${__dirname}\\customError`);
 
 exports.getReviews= async (request, response, next) => {
@@ -22,6 +23,9 @@ exports.getReviews= async (request, response, next) => {
 exports.createReviews= async (request, response, next) => {
     try{
         const newDoc= await reviewsModel.create(request.body);
+        const movie= await movieModel.findById(newDoc.movieId) || "No movie related to this review";
+        //ommit event to socket server with created object
+        response.io.emit("review", newDoc, movie.name); 
         response.status(201).json({                             //201 Created
             status: "Successful",
             data: newDoc

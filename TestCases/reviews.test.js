@@ -75,3 +75,4 @@ test("Fail to delete a review if ID not found", async () => {
         .send()
         .expect(404);
 });
+//TODO: Test Schema validation

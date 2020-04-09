@@ -69,7 +69,7 @@ exports.readMovie= async (request, response, next) => {
 exports.createOneMovie= async (request, response, next) => {
     try{
         const newDoc= await movieModel.create(request.body);
-        response.io.emit("post", newDoc);
+        response.io.emit("movie", newDoc);      //ommit event to socket server with created object
         response.status(201).json({     //201 sccessfully created/updated
             status: "Successful",
             data: newDoc
