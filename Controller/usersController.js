@@ -13,7 +13,7 @@ exports.signup= async (request, response, next) => {
             message: "User created successfully, you can now log in to add/update data"
         });
     } catch(error) {
-        next(error);
+        next(new customError(error, 404));
     }
     
 };
@@ -41,8 +41,7 @@ exports.signin= async (request, response, next) => {
             message: "Logged in successfuly. You can now add/update data"
         });
     } catch(error) {
-        console.log(error);
-        next(error);
+        next(new customError(error, 401));
     }
 };
 exports.protect= async (request, response, next) => {
@@ -62,6 +61,6 @@ exports.protect= async (request, response, next) => {
         //else if no error verifying grant access to API
         next();     //call next middle-ware
     } catch(error) {
-        next(error);
+        next(new customError(error, 401));
     } 
 };

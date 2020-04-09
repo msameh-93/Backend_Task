@@ -16,7 +16,7 @@ exports.getReviews= async (request, response, next) => {
         });
     } catch(error)
     {
-        next(error);
+        next(new customError(error, 404));
     }
 };
 exports.createReviews= async (request, response, next) => {
@@ -28,7 +28,7 @@ exports.createReviews= async (request, response, next) => {
         });
     } catch(error)
     {
-        next(error);
+        next(new customError(error, 404));
     }
 };
 exports.updateReviews= async (request, response, next) => {
@@ -46,7 +46,7 @@ exports.updateReviews= async (request, response, next) => {
         })
     } catch(error)
     {
-        next(error);
+        next(new customError(error, 404));
     }
 };
 exports.deleteReviews= async (request, response, next) => {
@@ -61,6 +61,6 @@ exports.deleteReviews= async (request, response, next) => {
         })
     } catch(error)
     {
-        next(error);
+        next(new customError(error, 404));
     }
 };

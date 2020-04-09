@@ -4,7 +4,6 @@ const customError= require(`${__dirname}\\customError`);
 exports.readAllMovies= async (request, response, next) => {
     try
     {
-        response.io.emit("message", "TEST");
         let queriedDocuments= movieModel.find().populate("Allreviews");    //virtual populate
         if(request.query.filterBy)
         {
@@ -47,7 +46,8 @@ exports.readAllMovies= async (request, response, next) => {
             data: allDocuments
         })
     }  catch(error) {
-        next(error);        //express feauture: sending argument in next() triggers global error handler
+        next(new customError(error, 404));        
+        //express feauture: sending argument in next() triggers global error handler
     }
 };
 exports.readMovie= async (request, response, next) => {
@@ -63,18 +63,19 @@ exports.readMovie= async (request, response, next) => {
             data: document
         });
     } catch(error) {
-        next(error);
+        next(new customError(error, 404));
     }
 };
 exports.createOneMovie= async (request, response, next) => {
     try{
         const newDoc= await movieModel.create(request.body);
+        response.io.emit("post", newDoc);
         response.status(201).json({     //201 sccessfully created/updated
             status: "Successful",
             data: newDoc
         });
     } catch(error) {
-        next(error);
+        next(new customError(error, 404));
     }
 };
 exports.updateMovie= async (request, response, next) => {
@@ -92,7 +93,7 @@ exports.updateMovie= async (request, response, next) => {
             data: updatedDoc
         })
     } catch(error) {
-        next(error);
+        next(new customError(error, 404));
     }
 };
 exports.deleteMovie= async (request, response, next) => {
@@ -107,6 +108,6 @@ exports.deleteMovie= async (request, response, next) => {
             status: "Successful"
         })
     } catch(error) {
-        next(error);
+        next(new customError(error, 404));
     }
 };
