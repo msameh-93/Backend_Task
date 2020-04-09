@@ -3,6 +3,7 @@ const cookieParser= require("cookie-parser");
 const mongoose= require("mongoose");
 const socketio= require("socket.io");
 const http= require("http");
+const static= require("serve-static");
 /************************/
 const movieRouter= require(`${__dirname}\\Routers\\movieRouter`);
 const reviewsRouter= require(`${__dirname}\\Routers\\reviewsRouter`);
@@ -17,7 +18,7 @@ const io= socketio(server);     //Serves a client side file that can be used
 
 app.set("view engine", "pug");
 app.set("views", `${__dirname}\\View`);
-app.use(express.static(`${__dirname}\\public`));
+app.use(static(`${__dirname}\\public`));
 //Use instance of io in middle ware to be used in back-end API controller
 app.use((request, response, next) => {  
     response.io= io;
