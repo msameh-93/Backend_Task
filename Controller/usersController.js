@@ -1,8 +1,9 @@
-const usersModel= require(`${__dirname}\\..\\Model\\usersModel`);
-const customError= require(`${__dirname}\\customError`);
+const path= require("path");
 const util= require("util");
 const jwt= require("jsonwebtoken");
 const bcrypt= require("bcryptjs");
+const usersModel= require(path.join(__dirname+ `/../Model/usersModel`));
+const customError= require(path.join(__dirname+ `/customError`));
 
 exports.signup= async (request, response, next) => {
     try

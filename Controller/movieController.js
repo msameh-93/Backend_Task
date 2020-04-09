@@ -1,5 +1,6 @@
-const movieModel= require(`${__dirname}\\..\\Model\\movieModel`); //Model inported from model.js
-const customError= require(`${__dirname}\\customError`);
+const path= require("path");
+const movieModel= require(path.join(__dirname+`/../Model/movieModel`)); //Model inported from model.js
+const customError= require(path.join(__dirname+`/customError`));
 
 exports.readAllMovies= async (request, response, next) => {
     try

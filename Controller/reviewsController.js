@@ -1,6 +1,7 @@
-const reviewsModel= require(`${__dirname}\\..\\Model\\reviewsModel`);
-const movieModel= require(`${__dirname}\\..\\Model\\movieModel`);
-const customError= require(`${__dirname}\\customError`);
+const path= require("path");
+const reviewsModel= require(path.join(__dirname+ `/../Model/reviewsModel`));
+const movieModel= require(path.join(__dirname+ `/../Model/movieModel`));
+const customError= require(path.join(__dirname+ `/customError`));
 
 exports.getReviews= async (request, response, next) => {
     try
