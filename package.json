@@ -21,11 +21,11 @@
     "mongoose": "^5.9.7",
     "serve-static": "^1.14.1",
     "socket.io": "^2.3.0",
-    "validator": "^13.0.0"
+    "validator": "^13.0.0",
+    "pug": "^2.0.4"
   },
   "devDependencies": {
     "jest": "^25.2.7",
-    "pug": "^2.0.4",
     "querymen": "^2.1.4",
     "supertest": "^3.4.2"
   }

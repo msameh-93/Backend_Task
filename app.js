@@ -46,7 +46,8 @@ app.all("*", (request, response) => {   //listens to all requests that did not p
 });
 //express middle ware to handle errors passed to next(error)
 app.use((error, request, response, next) => {//passing 4 args to middleware is recognized as errhandler
-    response.status(404).json({
+    const status= error.status || 404;
+    response.status(status).json({
         status: "Error",
         message: error.message
     })
