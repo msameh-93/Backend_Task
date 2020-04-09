@@ -4,7 +4,7 @@ head
 body
     h1 Front End Real time access
     form#msg-form
-        input(type='text')#msg
+        input(type='text', name="msg")
         button Send
 
     script(src='/socket.io/socket.io.js')

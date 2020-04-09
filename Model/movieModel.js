@@ -35,6 +35,7 @@ movieSchema.virtual("Allreviews", {
     localField: "_id",
     select: "rate description"
 });
+
 const movieModel= mongoose.model("Movies", movieSchema);
 
 module.exports= movieModel;

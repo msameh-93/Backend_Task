@@ -7,7 +7,7 @@ socket.on("message", (message) => {
 
 document.querySelector("#msg-form").addEventListener("submit", (e) => {
     e.preventDefault();     //prevents page refreshing
-    
-    const msg= document.getElementById("msg").value;
+
+    const msg= e.target.elements.msg;       //Grab value of msg input 
     socket.emit("chat", msg);
 })
