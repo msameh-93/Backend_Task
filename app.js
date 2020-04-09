@@ -16,6 +16,7 @@ const server= http.createServer(app);   //Created explicitly to use server for w
 const io= socketio(server);     //Serves a client side file that can be used
 //Socket.io send/receive events between client and server
 
+app.engine('pug', require('pug').__express)
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname+`/View`));
 app.use(express.static(path.join(__dirname+`/public`)));
