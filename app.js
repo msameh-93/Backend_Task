@@ -54,11 +54,9 @@ app.use((error, request, response, next) => {//passing 4 args to middleware is r
 });   
 /*************Connecting to Mongoose********************/
 //remove deprecation warnings: (from mongoose documentation)
-const mongoURL_local= "mongodb://localhost:27017/movies";
-const mongoURL_cloud= "mongodb+srv://msameh32:romers20@cluster0-vmfeh.mongodb.net/test?retryWrites=true&w=majority";
 mongoose.set('useNewUrlParser', true);  
 mongoose.set('useUnifiedTopology', true);
-mongoose.connect(mongoURL_cloud, (err) => {if(err) console.log(err)})
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/movies", (err) => {if(err) console.log(err)})
         .then(connection => {console.log("Connection to mongoose server is successful")}).catch(err=>{
             console.log(err);
         });
