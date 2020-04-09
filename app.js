@@ -3,7 +3,7 @@ const cookieParser= require("cookie-parser");
 const mongoose= require("mongoose");
 const socketio= require("socket.io");
 const http= require("http");
-const static= require("serve-static");
+const path= require("path");
 /************************/
 const movieRouter= require(`${__dirname}\\Routers\\movieRouter`);
 const reviewsRouter= require(`${__dirname}\\Routers\\reviewsRouter`);
@@ -17,8 +17,8 @@ const io= socketio(server);     //Serves a client side file that can be used
 //Socket.io send/receive events between client and server
 
 app.set("view engine", "pug");
-app.set("views", `${__dirname}\\View`);
-app.use(static(`${__dirname}\\public`));
+app.set("views", path.join(__dirname+`/View`));
+app.use(express.static(path.join(__dirname+`/public`)));
 //Use instance of io in middle ware to be used in back-end API controller
 app.use((request, response, next) => {  
     response.io= io;
@@ -45,7 +45,7 @@ app.all("*", (request, response) => {   //listens to all requests that did not p
 });
 //express middle ware to handle errors passed to next(error)
 app.use((error, request, response, next) => {//passing 4 args to middleware is recognized as errhandler
-    response.status(error.statusCode).json({
+    response.status(404).json({
         status: "Error",
         message: error.message
     })
