@@ -26,7 +26,7 @@ app.use((request, response, next) => {
 app.use(express.json());    //middle ware to parse json data (for Post and Patch end-points)
 app.use(cookieParser());    //middle ware to parse cookies in requests for jwt authentication
     /*Render Home page*/
-app.use("/home", (request, response) => {
+app.use("/", (request, response) => {
     response.status(200).render("index");
 });
     /*Mounting Routers*/
