@@ -16,7 +16,10 @@ test("Sort Movies - Signed in or not", async () => {
         .expect(200);
     const names= [];        //Test that names are sorted
     response.body.data.forEach(el => {
-        names.push(el.name);
+        if(["A", "B", "C", "D"].includes(el.name))
+        {
+            names.push(el.name);
+        }
     });
     expect(names).toEqual(["A", "B", "C", "D"]);
 });
@@ -38,6 +41,14 @@ test("Create a movie only if signed in", async () => {
         .set("Cookie", `jwt=${token}`)
         .send(testMovie)
         .expect(201);
+});
+test("Fail to create movie with duplicate name", async () => {
+    const token= jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication",{expiresIn:"5m"});
+    await supertest(app)
+        .post("/api/movies")
+        .set("Cookie", `jwt=${token}`)
+        .send(testMovie)
+        .expect(404);
 });
 test("Fail to post movie if not signed in", async () => {
     await supertest(app)
@@ -110,4 +121,3 @@ test("Fail to delete a movie if ID not found", async () => {
         .send()
         .expect(404);
 });
-//TODO: Test Schema validation

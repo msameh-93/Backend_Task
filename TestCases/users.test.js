@@ -29,13 +29,13 @@ test("Fail to sign in if user does not exist in data base", async () => {
         email: "dummyUser@lol.com",
         password: "dummyPassword"
     })
-    .expect(404);
+    .expect(401);
 });
 test("Fail to sign up if no email or password provided", async () => {
     await supertest(app)
     .post("/api/users/signin")
     .send({ })
-    .expect(404);
+    .expect(401);
 });
 //Poor attmempt to test JWT expiry :)
 test("Fail to authenticate if JWT token expires", (done) => {

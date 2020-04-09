@@ -15,6 +15,14 @@ test("Create a review only if signed in", async () => {
         .send(testReview)
         .expect(201);
 });
+test("Fail to create a review with duplicate title", async () => {
+    const token= jwt.sign({id:signInUser.id},"secretjwtwebtokenforauthentication", {expiresIn:"5m"});
+    await supertest(app)
+        .post("/api/reviews")
+        .set("Cookie", `jwt=${token}`)
+        .send(testReview)
+        .expect(404);
+});
 test("Fail to post review if not signed in", async () => {
     await supertest(app)
         .post("/api/reviews")

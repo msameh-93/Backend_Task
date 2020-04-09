@@ -1,24 +1,21 @@
 const express= require("express");
 const cookieParser= require("cookie-parser");
 const mongoose= require("mongoose");
+const socketio= require("socket.io");
+const http= require("http");
 /************************/
 const movieRouter= require(`${__dirname}\\Routers\\movieRouter`);
 const reviewsRouter= require(`${__dirname}\\Routers\\reviewsRouter`);
 const usersRouter= require(`${__dirname}\\Routers\\usersRouter`);
 /*************************************************/
-
 const app= express();
+const server= http.createServer(app);   //Created explicitly to use server for websocket io
+const io= socketio(server);     //Serves a client side file that can be used
+//Socket.io send/receive events between client and server
 
 app.set("view engine", "pug");
 app.set("views", `${__dirname}\\View`);
 app.use(express.static(`${__dirname}\\public`));
-/******************************************/
-const socketio= require("socket.io");
-const http= require("http");
-/***********************************************/
-const server= http.createServer(app);   //Created explicitly to use server for websocket io
-const io= socketio(server);     //Serves a client side file that can be used
-//Socket.io send/receive events between client and server
 //Use instance of io in middle ware to be used in back-end API controller
 app.use((request, response, next) => {  
     response.io= io;
@@ -54,11 +51,10 @@ app.use((error, request, response, next) => {//passing 4 args to middleware is r
 //remove deprecation warnings: (from mongoose documentation)
 mongoose.set('useNewUrlParser', true);  
 mongoose.set('useUnifiedTopology', true);
-
 mongoose.connect("mongodb://localhost:27017/movies", (err) => {if(err) console.log(err)})
         .then(connection => {console.log("Connection to mongoose server is successful")});
 /*************************************************/
-
+module.exports= app;
 //Listen to local host
 server.listen(8000, () => {
     console.log("Connection to server is Successful");
