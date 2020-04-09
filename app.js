@@ -12,6 +12,31 @@ const app= express();
 app.set("view engine", "pug");
 app.set("views", `${__dirname}\\View`);
 app.use(express.static(`${__dirname}\\public`));
+/******************************************/
+const socketio= require("socket.io");
+const http= require("http");
+/***********************************************/
+const server= http.createServer(app);   //Created explicitly to use server for websocket io
+const io= socketio(server);     //Serves a client side file that can be used
+//Socket.io send/receive events between client and server
+io.on("connection", (socket) => {   //socket argument refers current connecting client
+    console.log("New Web Socket connection");
+    socket.emit("message", "Welcome");
+    socket.broadcast.emit("message", "New User joined");
+    socket.on("chat", (msg) => {
+        io.emit("message", msg);
+    });
+    socket.on("disconnect", () => {
+        console.log("User disconnected!");
+        io.emit("User Disconnected");
+    })
+})
+//Use instance of io in middle ware to be used in back-end API controller
+app.use((request, response, next) => {  
+    response.io= io;
+    next();
+});
+/****************************************************/
 /**Middle-wares**/
 app.use(express.json());    //middle ware to parse json data (for Post and Patch end-points)
 app.use(cookieParser());    //middle ware to parse cookies in requests for jwt authentication
@@ -46,4 +71,7 @@ mongoose.connect("mongodb://localhost:27017/movies", (err) => {if(err) console.l
         .then(connection => {console.log("Connection to mongoose server is successful")});
 /*************************************************/
 
-module.exports= app;
+//Listen to local host
+server.listen(8000, () => {
+    console.log("Connection to server is Successful");
+});

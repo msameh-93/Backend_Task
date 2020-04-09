@@ -4,7 +4,7 @@ const customError= require(`${__dirname}\\customError`);
 exports.readAllMovies= async (request, response, next) => {
     try
     {
-        console.log(response.io);
+        response.io.emit("message", "TEST");
         let queriedDocuments= movieModel.find().populate("Allreviews");    //virtual populate
         if(request.query.filterBy)
         {
