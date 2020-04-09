@@ -9,6 +9,8 @@ const reviewsRouter= require(`${__dirname}\\Routers\\reviewsRouter`);
 const usersRouter= require(`${__dirname}\\Routers\\usersRouter`);
 /*************************************************/
 const app= express();
+const port= process.env.PORT || 8000;   //For Heroku deployment or local testing
+
 const server= http.createServer(app);   //Created explicitly to use server for websocket io
 const io= socketio(server);     //Serves a client side file that can be used
 //Socket.io send/receive events between client and server
@@ -56,6 +58,6 @@ mongoose.connect("mongodb://localhost:27017/movies", (err) => {if(err) console.l
 /*************************************************/
 module.exports= app;
 //Listen to local host
-server.listen(8000, () => {
-    console.log("Connection to server is Successful");
+server.listen(port, () => {
+    console.log(`Connection to server on port ${port} is Successful`);
 });
