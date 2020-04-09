@@ -3,6 +3,9 @@ head
 
 body
     h1 Front End Real time access
-    button#increment Add One
+    form#msg-form
+        input(type='text')#msg
+        button Send
+
     script(src='/socket.io/socket.io.js')
     script(src='/js/socketLogic.js')

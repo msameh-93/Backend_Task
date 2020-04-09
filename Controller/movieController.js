@@ -11,7 +11,6 @@ exports.readAllMovies= async (request, response, next) => {
             //user can filter field by operators (gt),(gte),(lt),(lte),(eq)
             //eg: asd(gt)asd
             let filterQuery= request.query.filterBy;           //{name=asc,genre=asc}
-            console.log(filterQuery);
             //Chain of methods to convert from regular query(abc=123) to json object({"abc":"123"})
             filterQuery= filterQuery
                 .replace(/\b(\(gte\))|(\(gt\)|(\(lte\))|(\(lt\))|(\(eq\)))\b/g, matched =>`$${matched}":"`)  
