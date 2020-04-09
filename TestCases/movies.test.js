@@ -1,9 +1,10 @@
 const supertest= require("supertest");
-const app= require(`${__dirname}\\..\\app`);
-const moviesModel= require(`${__dirname}\\..\\Model\\movieModel`);
+const path= require("path");
 const jwt= require("jsonwebtoken");
 const mongoose= require("mongoose");
-const { signInUser, testMovie, clearDB, createSortFitlerData }= require(`${__dirname}\\data`);
+const app= require(path.join(__dirname+`/../app`));
+const moviesModel= require(path.join(__dirname+`/../Model/movieModel`));
+const { signInUser, testMovie, clearDB, createSortFitlerData }= require(path.join(__dirname+`/data`));
 
 beforeAll(createSortFitlerData);    //populate data for sorting/filtering
 afterAll(clearDB);  //to reset dummy data entered by jest if it was not deleted by "delete" test case

@@ -1,8 +1,9 @@
 const supertest= require("supertest");
-const app= require(`${__dirname}\\..\\app`);
-const usersModel= require(`${__dirname}\\..\\Model\\usersModel`);
+const path= require("path");
 const jwt= require("jsonwebtoken");
-const { signUpUser, signInUser, setupDB, clearDB }= require(`${__dirname}\\data`);
+const app= require(path.join(__dirname+`/../app`));
+const usersModel= require(path.join(__dirname+`/../Model/usersModel`));
+const { signUpUser, signInUser, setupDB, clearDB }= require(path.join(__dirname+`/data`));
 
 
 beforeAll(setupDB);

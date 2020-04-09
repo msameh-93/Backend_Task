@@ -1,6 +1,7 @@
 const express= require("express");
-const movieController= require(`${__dirname}\\..\\Controller\\movieController`);
-const usersController= require(`${__dirname}\\..\\Controller\\usersController`);
+const path= require("path");
+const movieController= require(path.join(__dirname+`/../Controller/movieController`));
+const usersController= require(path.join(__dirname+`/../Controller/usersController`));
 const router= express.Router();     //used as middle ware
 
 //RESTful CRUD apis

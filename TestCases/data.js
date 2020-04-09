@@ -1,7 +1,8 @@
 const mongoose= require("mongoose");
-const movieModel= require(`${__dirname}\\..\\Model\\movieModel`);
-const usersModel= require(`${__dirname}\\..\\Model\\usersModel`);
-const reviewsModel= require(`${__dirname}\\..\\Model\\reviewsModel`);
+const path= require("path");
+const movieModel= require(path.join(__dirname+`/../Model/movieModel`));
+const usersModel= require(path.join(__dirname+`/../Model/usersModel`));
+const reviewsModel= require(path.join(__dirname+`/../Model/reviewsModel`));
 const faker= require("faker");
 
 const signInUser= {

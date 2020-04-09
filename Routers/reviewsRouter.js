@@ -1,6 +1,7 @@
 const express= require("express");
-const reviewsController= require(`${__dirname}\\..\\Controller\\reviewsController`);
-const usersController= require(`${__dirname}\\..\\Controller\\usersController`);
+const path= require("path");
+const reviewsController= require(path.join(__dirname+`/../Controller/reviewsController`));
+const usersController= require(path.join(__dirname+`/../Controller/usersController`));
 const router= express.Router();
 
 //RESTful CRUD apis

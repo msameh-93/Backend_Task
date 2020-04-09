@@ -1,5 +1,6 @@
 const express= require("express");
-const usersController= require(`${__dirname}\\..\\Controller\\usersController`);
+const path= require("path");
+const usersController= require(path.join(__dirname+`/../Controller/usersController`));
 const router= express.Router();     //used as middle ware
 
 //Mounted routers on app.js (/api/users/...)
